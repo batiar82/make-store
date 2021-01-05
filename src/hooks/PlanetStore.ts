@@ -6,10 +6,11 @@ export type Planet = {id: string, name: string};
 export type PlanetAction = Action<Planet>;
 
 const planetsReducer: Reducer<Planet[], PlanetAction> = (state, action) => {
-    if (action.type === 'add')
-    // return {...state, planets: [...state.planets,action.payload]};
-    return [...state, action.payload];
-    else throw new Error('Unknown action'+JSON.stringify(action));
+    switch (action.type) {
+        case 'add': return [...state, action.payload];
+        case 'delete': return state.filter(planet => planet.id !== action.payload.id)
+        default: throw new Error('Unknown action'+JSON.stringify(action));
+    }
 }
 
 const initialPlanets = [{id: uuidv4(), name: 'Earth'}, {id: uuidv4(), name: 'Mars'}];

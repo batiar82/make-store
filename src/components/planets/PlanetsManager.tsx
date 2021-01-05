@@ -8,13 +8,20 @@ const PlanetsManager = () => {
   const [value, setValue] = useState('Jupiter');
   const handleAddPlanet = () =>
   dispatch({type: "add", payload: {id: uuidv4(), name: value}}); 
+  const handleDeletePlanet = (planet : Planet) => () => {
+    dispatch({
+      type: "delete",
+      payload: planet
+    })
+
+  }
   return (
     <>
       <input type='text' value={value} onChange={e => setValue(e.target.value)}/>
       <button onClick={handleAddPlanet}>Add Planet</button>
       <div>
-        {planets.map(({id, name}) => (
-          <div key={id}>{name}</div>
+        {planets.map((planet) => (
+          <div key={planet.id} onClick={handleDeletePlanet(planet)}>{planet.name}</div>
         ))}
       </div>
     </>
